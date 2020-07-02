@@ -1,15 +1,35 @@
-## Put comments here that give an overall description of what your
-## functions do
+## function makecachematrix operates to store a matrix in a cache to be 
 
-## Write a short comment describing this function
+## to be called upon later by cachesolve which returns the inverse of the matrix
 
-makeCacheMatrix <- function(x = matrix()) {
+## Stores a given matrix 
 
+makecachematrix<- function(x=matrix(),...){
+inv<- NULL
+set=function(y){
+x<<-y
+inv<<-NULL}
+get<-function()x
+setinv<-function(inverse)inv<<-inverse
+getinv<- function() inv
+list(inv = inv,get = get,setinv = setinv, getinv = getinv)
 }
 
 
-## Write a short comment describing this function
+## gives inverse of matrix stored in makecachematrix
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cachesolve<-function(x=matrix(),...){
+inv<-x$getinv()
+if(!is.null(inv)){print("getting data")
+return(inv)
+}
+dat<-x$get() 
+if(det(dat)!=0){
+inv<-solve(dat,...)
+x$setinv(inv)
+return(inv)
+}
+if(det(dat)==0){
+message("inverse doesn't exist") 
+}
 }
